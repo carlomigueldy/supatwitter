@@ -1,45 +1,59 @@
-import React, { useState } from 'react'
-import logo from './logo.svg'
-import './App.css'
+import { ChakraProvider, Text } from "@chakra-ui/react";
+import React, { useEffect } from "react";
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  Link,
+  Redirect,
+} from "react-router-dom";
+import "./App.css";
+
+import AppErrorLayout from "./layouts/AppErrorLayout";
+import AppMainLayout from "./layouts/AppMainLayout";
+import NotAuthenticatedPage from "./pages/error/NotAuthenticatedPage";
+import NotFoundPage from "./pages/error/NotFoundPage";
+import HomePage from "./pages/home/HomePage";
+import LandingPage from "./pages/landing/LandingPage";
 
 function App() {
-  const [count, setCount] = useState(0)
+  useEffect(() => {
+    document.title = "SupaTwitter";
+  }, []);
 
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>Hello Vite + React!</p>
-        <p>
-          <button type="button" onClick={() => setCount((count) => count + 1)}>
-            count is: {count}
-          </button>
-        </p>
-        <p>
-          Edit <code>App.tsx</code> and save to test HMR updates.
-        </p>
-        <p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-          {' | '}
-          <a
-            className="App-link"
-            href="https://vitejs.dev/guide/features.html"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Vite Docs
-          </a>
-        </p>
-      </header>
-    </div>
-  )
+    <ChakraProvider>
+      <Text>SupaTwitter</Text>
+
+      <Router>
+        <Switch>
+          <Route path="/" exact component={LandingPage} />
+
+          <Route path="/home">
+            <AppMainLayout>
+              <HomePage />
+            </AppMainLayout>
+          </Route>
+
+          <Route path="/error">
+            <AppErrorLayout>
+              <Route path="/error/not-found" component={NotFoundPage} />
+              <Route
+                path="/error/not-authenticated"
+                component={NotAuthenticatedPage}
+              />
+              <Route
+                path="/error/not-authorized"
+                component={NotAuthenticatedPage}
+              />
+            </AppErrorLayout>
+          </Route>
+
+          <Redirect from="**" to="/error" />
+        </Switch>
+      </Router>
+    </ChakraProvider>
+  );
 }
 
-export default App
+export default App;
