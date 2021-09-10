@@ -23,8 +23,6 @@ function App() {
 
   return (
     <ChakraProvider>
-      <Text>SupaTwitter</Text>
-
       <Router>
         <Switch>
           <Route path="/" exact component={LandingPage} />
@@ -35,19 +33,30 @@ function App() {
             </AppMainLayout>
           </Route>
 
-          <Route path="/error">
-            <AppErrorLayout>
-              <Route path="/error/not-found" component={NotFoundPage} />
-              <Route
-                path="/error/not-authenticated"
-                component={NotAuthenticatedPage}
-              />
-              <Route
-                path="/error/not-authorized"
-                component={NotAuthenticatedPage}
-              />
-            </AppErrorLayout>
-          </Route>
+          {/* Error Routes */}
+          <Route
+            path="/error"
+            render={(props) => {
+              console.log(`path: /error, props: `, props);
+              const path = props.match.path;
+
+              return (
+                <AppErrorLayout>
+                  <Route path={`${path}/not-found`} component={NotFoundPage} />
+                  <Route
+                    path={`${path}/not-authenticated`}
+                    component={NotAuthenticatedPage}
+                  />
+                  <Route
+                    path={`${path}/not-authorized`}
+                    component={NotAuthenticatedPage}
+                  />
+
+                  <Redirect from={`${path}/**`} to={`${path}/not-found`} />
+                </AppErrorLayout>
+              );
+            }}
+          />
 
           <Redirect from="**" to="/error" />
         </Switch>
