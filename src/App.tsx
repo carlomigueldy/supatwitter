@@ -13,8 +13,12 @@ import AppErrorLayout from "./layouts/AppErrorLayout";
 import AppMainLayout from "./layouts/AppMainLayout";
 import NotAuthenticatedPage from "./pages/error/NotAuthenticatedPage";
 import NotFoundPage from "./pages/error/NotFoundPage";
+import ExplorePage from "./pages/explore/ExplorePage";
 import HomePage from "./pages/home/HomePage";
 import LandingPage from "./pages/landing/LandingPage";
+import MessagesPage from "./pages/messages/MessagesPage";
+import NotificationsPage from "./pages/notifications/NotificationsPage";
+import UserProfilePage from "./pages/user-profile/UserProfilePage";
 
 function App() {
   useEffect(() => {
@@ -27,11 +31,13 @@ function App() {
         <Switch>
           <Route path="/" exact component={LandingPage} />
 
-          <Route path="/home">
-            <AppMainLayout>
-              <HomePage />
-            </AppMainLayout>
-          </Route>
+          <AppMainLayout>
+            <Route path="/home" component={HomePage} />
+            <Route path="/notifications" exact component={NotificationsPage} />
+            <Route path="/explore" exact component={ExplorePage} />
+            <Route path="/messages" exact component={MessagesPage} />
+            <Route path="/:username" component={UserProfilePage} />
+          </AppMainLayout>
 
           {/* Error Routes */}
           <Route
