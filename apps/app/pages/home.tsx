@@ -5,7 +5,7 @@ export default function Home() {
     <>
       <h1>Home</h1>
 
-      <PrimaryButton></PrimaryButton>
+      <PrimaryButton>Hey</PrimaryButton>
     </>
   );
 }

@@ -1,24 +1,23 @@
+import { ChakraProvider, Box } from '@chakra-ui/react';
 import { AppProps } from 'next/app';
 import Head from 'next/head';
 import './styles.css';
 
 function CustomApp({ Component, pageProps }: AppProps) {
   return (
-    <>
+    <ChakraProvider>
       <Head>
-        <title>Welcome to app!</title>
+        <title>SupaTwitter</title>
       </Head>
-      <div className="app">
-        <header className="flex">
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src="/nx-logo-white.svg" alt="Nx logo" width="75" height="50" />
-          <h1>Welcome to app!</h1>
+      <Box p={10}>
+        <header>
+          <h1>SupaTwitter</h1>
         </header>
         <main>
           <Component {...pageProps} />
         </main>
-      </div>
-    </>
+      </Box>
+    </ChakraProvider>
   );
 }
 
