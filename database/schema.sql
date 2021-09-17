@@ -1,3 +1,4 @@
+DROP TABLE IF EXISTS public.tweets;
 DROP TRIGGER IF EXISTS on_auth_user_created ON auth.users;
 DROP TABLE IF EXISTS public.users;
 
@@ -13,6 +14,18 @@ CREATE TABLE public.users (
 );
 
 COMMENT ON COLUMN public.users.id IS 'The auth.users reference';
+
+-- tweets
+CREATE TABLE public.tweets (
+  id uuid PRIMARY KEY NOT NULL REFERENCES auth.users (id),
+  tweet VARCHAR CHECK (tweet <> ''),
+  created_by uuid NOT NULL REFERENCES public.users (id),
+  pinned boolean DEFAULT false,
+  parent uuid REFERENCES public.tweets (id),
+  created_at TIMESTAMP NOT NULL DEFAULT now(),
+  updated_at TIMESTAMP NOT NULL DEFAULT now(),
+  deleted_at TIMESTAMP
+);
 
 -- Trigger to handle new registered user
 CREATE OR REPLACE FUNCTION public.handle_new_user()
